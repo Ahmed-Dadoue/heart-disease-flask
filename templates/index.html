@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ lang }}">
+<html lang="{{ lang }}" dir="{{ text.direction }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,9 @@
             </a>
             <a href="{{ url_for('home', lang='de') }}" class="{% if lang == 'de' %}active{% endif %}">
                 {{ text.language_de }}
+            </a>
+            <a href="{{ url_for('home', lang='ar') }}" class="{% if lang == 'ar' %}active{% endif %}">
+                {{ text.language_ar }}
             </a>
         </div>
 
