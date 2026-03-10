@@ -22,12 +22,28 @@
 
         <h1>{{ text.heading }}</h1>
 
-        <form action="/predict" method="post" class="prediction-form">
+        <!-- General Help Box -->
+        <div class="help-banner">
+            <button type="button" onclick="toggleInfo('formHelp')" class="help-btn">
+                ℹ️ {{ text.help_button }}
+            </button>
+            <div id="formHelp" class="info-box help-box">
+                {{ text.help_text }}
+            </div>
+        </div>
+
+        <form action="/predict" method="post" class="prediction-form" id="predictionForm">
             <input type="hidden" name="lang" value="{{ lang }}">
             
             <!-- Sex -->
             <div class="form-group">
-                <label for="sex">{{ text.sex }}</label>
+                <label for="sex">
+                    {{ text.sex }}
+                    <span class="info-icon" onclick="toggleInfo('sexInfo')">ⓘ</span>
+                </label>
+                <div id="sexInfo" class="info-box">
+                    {{ text.info_sex }}
+                </div>
                 <select name="sex" id="sex" required>
                     <option value="" disabled selected>{{ text.sex_select }}</option>
                     <option value="1">{{ text.sex_male }}</option>
@@ -38,14 +54,26 @@
             
             <!-- Age -->
             <div class="form-group">
-                <label for="age">{{ text.age }}</label>
+                <label for="age">
+                    {{ text.age }}
+                    <span class="info-icon" onclick="toggleInfo('ageInfo')">ⓘ</span>
+                </label>
+                <div id="ageInfo" class="info-box">
+                    {{ text.info_age }}
+                </div>
                 <input type="number" name="age" id="age" placeholder="45" min="29" max="77" required>
                 <small>{{ text.hint_age }}</small>
             </div>
             
             <!-- Chest Pain Type -->
             <div class="form-group">
-                <label for="cp">{{ text.cp }}</label>
+                <label for="cp">
+                    {{ text.cp }}
+                    <span class="info-icon" onclick="toggleInfo('cpInfo')">ⓘ</span>
+                </label>
+                <div id="cpInfo" class="info-box">
+                    {{ text.info_cp }}
+                </div>
                 <select name="cp" id="cp" required>
                     <option value="" disabled selected>{{ text.cp_select }}</option>
                     <option value="0">{{ text.cp_typical }}</option>
@@ -58,21 +86,39 @@
             
             <!-- Resting BP -->
             <div class="form-group">
-                <label for="trestbps">{{ text.trestbps }}</label>
+                <label for="trestbps">
+                    {{ text.trestbps }}
+                    <span class="info-icon" onclick="toggleInfo('trestbpsInfo')">ⓘ</span>
+                </label>
+                <div id="trestbpsInfo" class="info-box">
+                    {{ text.info_trestbps }}
+                </div>
                 <input type="number" name="trestbps" id="trestbps" placeholder="120" min="94" max="200" required>
                 <small>{{ text.hint_trestbps }}</small>
             </div>
             
             <!-- Cholesterol -->
             <div class="form-group">
-                <label for="chol">{{ text.chol }}</label>
+                <label for="chol">
+                    {{ text.chol }}
+                    <span class="info-icon" onclick="toggleInfo('cholInfo')">ⓘ</span>
+                </label>
+                <div id="cholInfo" class="info-box">
+                    {{ text.info_chol }}
+                </div>
                 <input type="number" name="chol" id="chol" placeholder="240" min="126" max="564" required>
                 <small>{{ text.hint_chol }}</small>
             </div>
             
             <!-- Fasting Blood Sugar -->
             <div class="form-group">
-                <label for="fbs">{{ text.fbs }}</label>
+                <label for="fbs">
+                    {{ text.fbs }}
+                    <span class="info-icon" onclick="toggleInfo('fbsInfo')">ⓘ</span>
+                </label>
+                <div id="fbsInfo" class="info-box">
+                    {{ text.info_fbs }}
+                </div>
                 <select name="fbs" id="fbs" required>
                     <option value="" disabled selected>{{ text.fbs_select }}</option>
                     <option value="1">{{ text.fbs_high }}</option>
@@ -83,7 +129,13 @@
             
             <!-- Resting ECG -->
             <div class="form-group">
-                <label for="restecg">{{ text.restecg }}</label>
+                <label for="restecg">
+                    {{ text.restecg }}
+                    <span class="info-icon" onclick="toggleInfo('restecgInfo')">ⓘ</span>
+                </label>
+                <div id="restecgInfo" class="info-box">
+                    {{ text.info_restecg }}
+                </div>
                 <select name="restecg" id="restecg" required>
                     <option value="" disabled selected>{{ text.restecg_select }}</option>
                     <option value="0">{{ text.restecg_normal }}</option>
@@ -95,14 +147,26 @@
             
             <!-- Max Heart Rate -->
             <div class="form-group">
-                <label for="thalach">{{ text.thalach }}</label>
+                <label for="thalach">
+                    {{ text.thalach }}
+                    <span class="info-icon" onclick="toggleInfo('thalachInfo')">ⓘ</span>
+                </label>
+                <div id="thalachInfo" class="info-box">
+                    {{ text.info_thalach }}
+                </div>
                 <input type="number" name="thalach" id="thalach" placeholder="150" min="71" max="202" required>
                 <small>{{ text.hint_thalach }}</small>
             </div>
             
             <!-- Exercise Angina -->
             <div class="form-group">
-                <label for="exang">{{ text.exang }}</label>
+                <label for="exang">
+                    {{ text.exang }}
+                    <span class="info-icon" onclick="toggleInfo('exangInfo')">ⓘ</span>
+                </label>
+                <div id="exangInfo" class="info-box">
+                    {{ text.info_exang }}
+                </div>
                 <select name="exang" id="exang" required>
                     <option value="" disabled selected>{{ text.exang_select }}</option>
                     <option value="1">{{ text.exang_yes }}</option>
@@ -113,14 +177,26 @@
             
             <!-- Oldpeak -->
             <div class="form-group">
-                <label for="oldpeak">{{ text.oldpeak }}</label>
+                <label for="oldpeak">
+                    {{ text.oldpeak }}
+                    <span class="info-icon" onclick="toggleInfo('oldpeakInfo')">ⓘ</span>
+                </label>
+                <div id="oldpeakInfo" class="info-box">
+                    {{ text.info_oldpeak }}
+                </div>
                 <input type="number" name="oldpeak" id="oldpeak" placeholder="1.5" min="0" max="6.2" step="0.1" required>
                 <small>{{ text.hint_oldpeak }}</small>
             </div>
             
             <!-- Slope -->
             <div class="form-group">
-                <label for="slope">{{ text.slope }}</label>
+                <label for="slope">
+                    {{ text.slope }}
+                    <span class="info-icon" onclick="toggleInfo('slopeInfo')">ⓘ</span>
+                </label>
+                <div id="slopeInfo" class="info-box">
+                    {{ text.info_slope }}
+                </div>
                 <select name="slope" id="slope" required>
                     <option value="" disabled selected>{{ text.slope_select }}</option>
                     <option value="0">{{ text.slope_up }}</option>
@@ -132,14 +208,26 @@
             
             <!-- Major Vessels -->
             <div class="form-group">
-                <label for="ca">{{ text.ca }}</label>
+                <label for="ca">
+                    {{ text.ca }}
+                    <span class="info-icon" onclick="toggleInfo('caInfo')">ⓘ</span>
+                </label>
+                <div id="caInfo" class="info-box">
+                    {{ text.info_ca }}
+                </div>
                 <input type="number" name="ca" id="ca" placeholder="0" min="0" max="4" required>
                 <small>{{ text.hint_ca }}</small>
             </div>
             
             <!-- Thal -->
             <div class="form-group">
-                <label for="thal">{{ text.thal }}</label>
+                <label for="thal">
+                    {{ text.thal }}
+                    <span class="info-icon" onclick="toggleInfo('thalInfo')">ⓘ</span>
+                </label>
+                <div id="thalInfo" class="info-box">
+                    {{ text.info_thal }}
+                </div>
                 <select name="thal" id="thal" required>
                     <option value="" disabled selected>{{ text.thal_select }}</option>
                     <option value="0">{{ text.thal_normal }}</option>
@@ -163,5 +251,38 @@
         </section>
         {% endif %}
     </main>
+
+    <script>
+        // Toggle Info Boxes
+        function toggleInfo(id) {
+            const box = document.getElementById(id);
+            if (box.style.display === "block") {
+                box.style.display = "none";
+            } else {
+                box.style.display = "block";
+            }
+        }
+
+        // Form Validation
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            const requiredFields = ['sex', 'age', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal'];
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (!element.value) {
+                    isValid = false;
+                    element.style.borderColor = '#ef4444';
+                } else {
+                    element.style.borderColor = '#e2e8f0';
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('{{ text.validation_error }}');
+            }
+        });
+    </script>
 </body>
 </html>
