@@ -117,6 +117,7 @@
                     {{ text.trestbps }}
                     <span class="info-icon" onclick="toggleInfo('trestbpsInfo')">ⓘ</span>
                 </label>
+                <span class="source-badge">{{ text.source_blood_test }}</span>
                 <div id="trestbpsInfo" class="info-box">
                     <strong>{{ text.what_is }}</strong><br>
                     {{ text.info_trestbps_what }}<br><br>
@@ -137,6 +138,7 @@
                     {{ text.chol }}
                     <span class="info-icon" onclick="toggleInfo('cholInfo')">ⓘ</span>
                 </label>
+                <span class="source-badge">{{ text.source_blood_test }}</span>
                 <div id="cholInfo" class="info-box">
                     <strong>{{ text.what_is }}</strong><br>
                     {{ text.info_chol_what }}<br><br>
@@ -157,6 +159,7 @@
                     {{ text.fbs }}
                     <span class="info-icon" onclick="toggleInfo('fbsInfo')">ⓘ</span>
                 </label>
+                <span class="source-badge">{{ text.source_blood_test }}</span>
                 <div id="fbsInfo" class="info-box">
                     <strong>{{ text.what_is }}</strong><br>
                     {{ text.info_fbs_what }}<br><br>
@@ -181,6 +184,7 @@
                     {{ text.restecg }}
                     <span class="info-icon" onclick="toggleInfo('restecgInfo')">ⓘ</span>
                 </label>
+                <span class="source-badge">{{ text.source_ecg }}</span>
                 <div id="restecgInfo" class="info-box">
                     <strong>{{ text.what_is }}</strong><br>
                     {{ text.info_restecg_what }}<br><br>
@@ -208,6 +212,7 @@
                     {{ text.thalach }}
                     <span class="info-icon" onclick="toggleInfo('thalachInfo')">ⓘ</span>
                 </label>
+                <span class="source-badge">{{ text.source_stress_test }}</span>
                 <div id="thalachInfo" class="info-box">
                     <strong>{{ text.what_is }}</strong><br>
                     {{ text.info_thalach_what }}<br><br>
@@ -252,6 +257,7 @@
                     {{ text.oldpeak }}
                     <span class="info-icon" onclick="toggleInfo('oldpeakInfo')">ⓘ</span>
                 </label>
+                <span class="source-badge">{{ text.source_stress_test }}</span>
                 <div id="oldpeakInfo" class="info-box">
                     <strong>{{ text.what_is }}</strong><br>
                     {{ text.info_oldpeak_what }}<br><br>
@@ -274,6 +280,7 @@
                     {{ text.slope }}
                     <span class="info-icon" onclick="toggleInfo('slopeInfo')">ⓘ</span>
                 </label>
+                <span class="source-badge">{{ text.source_stress_test }}</span>
                 <div id="slopeInfo" class="info-box">
                     <strong>{{ text.what_is }}</strong><br>
                     {{ text.info_slope_what }}<br><br>
@@ -301,6 +308,7 @@
                     {{ text.ca }}
                     <span class="info-icon" onclick="toggleInfo('caInfo')">ⓘ</span>
                 </label>
+                <span class="source-badge">{{ text.source_specialist }}</span>
                 <div id="caInfo" class="info-box">
                     <strong>{{ text.what_is }}</strong><br>
                     {{ text.info_ca_what }}<br><br>
@@ -322,8 +330,7 @@
                 <label for="thal">
                     {{ text.thal }}
                     <span class="info-icon" onclick="toggleInfo('thalInfo')">ⓘ</span>
-                </label>
-                <div id="thalInfo" class="info-box">
+                </label>                <span class="source-badge">{{ text.source_specialist }}</span>                <div id="thalInfo" class="info-box">
                     <strong>{{ text.what_is }}</strong><br>
                     {{ text.info_thal_what }}<br><br>
                     
@@ -344,16 +351,39 @@
                 <small>{{ text.hint_thal }}</small>
             </div>
             
-            <button type="submit">{{ text.predict_button }}</button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; grid-column: 1 / -1;">
+                <button type="submit" style="background: #0f766e;">{{ text.predict_button }}</button>
+                <button type="reset" style="background: #64748b;">{{ text.reset_button }}</button>
+            </div>
         </form>
 
         {% if prediction %}
-        <section class="result">
-            <div style="margin-top:20px; font-size:20px; font-weight:bold;">
-                {{ text.result_label }}: {{ prediction }}
+        <section class="result{% if probability >= 70 %} risk-high{% elif probability >= 40 %} risk-medium{% else %} risk-low{% endif %}">
+            <div class="result-header">
+                <strong>{{ text.result_intro }}</strong>
+                <span class="risk-badge">
+                    {% if probability >= 70 %}{{ text.risk_level_high }}{% elif probability >= 40 %}{{ text.risk_level_medium }}{% else %}{{ text.risk_level_low }}{% endif %}
+                </span>
             </div>
-            <div style="font-size:18px;">
-                {{ text.probability_label }}: {{ probability }} %
+            
+            <div class="result-content">
+                <p style="margin: 10px 0; font-size: 14px;">{{ prediction }}</p>
+                
+                <div class="progress-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <label>{{ text.result_probability }}</label>
+                        <span style="font-weight: bold; font-size: 18px;">{{ probability }}%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill{% if probability >= 70 %} fill-high{% elif probability >= 40 %} fill-medium{% else %} fill-low{% endif %}" 
+                             style="width: {{ probability }}%;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-disclaimer">
+                {{ text.result_disclaimer }}<br>
+                {{ text.result_recommendation }}
             </div>
         </section>
         {% endif %}
@@ -389,6 +419,13 @@
                 e.preventDefault();
                 alert('{{ text.validation_error }}');
             }
+        });
+
+        // Reset form styling
+        document.getElementById('predictionForm').addEventListener('reset', function() {
+            document.querySelectorAll('#predictionForm input, #predictionForm select').forEach(el => {
+                el.style.borderColor = '#e2e8f0';
+            });
         });
     </script>
 </body>
