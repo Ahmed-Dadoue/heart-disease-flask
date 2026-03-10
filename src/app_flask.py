@@ -21,6 +21,56 @@ FEATURE_FIELDS = [
     "ca",
     "thal",
 ]
+TRANSLATIONS = {
+    "en": {
+        "page_title": "Heart Disease Prediction",
+        "heading": "Heart Disease Prediction",
+        "language_en": "English",
+        "language_de": "Deutsch",
+        "age": "Age",
+        "sex": "Sex",
+        "cp": "Chest Pain Type",
+        "trestbps": "Resting BP",
+        "chol": "Cholesterol",
+        "fbs": "FBS",
+        "restecg": "Rest ECG",
+        "thalach": "Max Heart Rate",
+        "exang": "Exercise Angina",
+        "oldpeak": "Oldpeak",
+        "slope": "Slope",
+        "ca": "CA",
+        "thal": "Thal",
+        "predict_button": "Predict",
+        "result_label": "Result",
+        "probability_label": "Risk Probability",
+        "high_risk": "High Risk of Heart Disease",
+        "low_risk": "Low Risk",
+    },
+    "de": {
+        "page_title": "Herzerkrankungs-Prognose",
+        "heading": "Herzerkrankungs-Prognose",
+        "language_en": "English",
+        "language_de": "Deutsch",
+        "age": "Alter",
+        "sex": "Geschlecht",
+        "cp": "Brustschmerztyp",
+        "trestbps": "Ruheblutdruck",
+        "chol": "Cholesterin",
+        "fbs": "Nuechternblutzucker",
+        "restecg": "Ruhe-EKG",
+        "thalach": "Max Herzfrequenz",
+        "exang": "Belastungsangina",
+        "oldpeak": "Oldpeak",
+        "slope": "Steigung",
+        "ca": "CA",
+        "thal": "Thal",
+        "predict_button": "Vorhersagen",
+        "result_label": "Ergebnis",
+        "probability_label": "Risikowahrscheinlichkeit",
+        "high_risk": "Hohes Risiko fuer Herzerkrankung",
+        "low_risk": "Niedriges Risiko",
+    },
+}
 
 app = Flask(
     __name__,
@@ -30,13 +80,26 @@ app = Flask(
 model = joblib.load(MODEL_PATH)
 
 
+def get_language(value):
+    return value if value in TRANSLATIONS else "en"
+
+
 @app.route("/")
 def home():
-    return render_template("index.html", prediction=None, probability=None)
+    lang = get_language(request.args.get("lang", "en"))
+    return render_template(
+        "index.html",
+        prediction=None,
+        probability=None,
+        lang=lang,
+        text=TRANSLATIONS[lang],
+    )
 
 
 @app.route("/predict", methods=["POST"])
 def predict():
+    lang = get_language(request.form.get("lang", "en"))
+    text = TRANSLATIONS[lang]
     features = {field: float(request.form[field]) for field in FEATURE_FIELDS}
     df = pd.DataFrame([features], columns=FEATURE_FIELDS)
 
@@ -44,14 +107,16 @@ def predict():
     probability = model.predict_proba(df)[0][1]
 
     if prediction == 1:
-        result = "⚠ High Risk of Heart Disease"
+        result = text["high_risk"]
     else:
-        result = "✅ Low Risk"
+        result = text["low_risk"]
 
     return render_template(
         "index.html",
         prediction=result,
         probability=round(probability * 100, 2),
+        lang=lang,
+        text=text,
     )
 
 

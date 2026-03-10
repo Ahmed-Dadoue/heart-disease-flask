@@ -19,6 +19,27 @@ h2 {
     margin-top: 0;
 }
 
+.language-switch {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.language-switch a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #e2e8f0;
+    color: #1f2937;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.language-switch a.active {
+    background: #0f766e;
+    color: #ffffff;
+}
+
 .prediction-form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

@@ -1,39 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heart Disease Prediction</title>
+    <title>{{ text.page_title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <main class="container">
-        <h1>Heart Disease Prediction</h1>
+        <div class="language-switch">
+            <a href="{{ url_for('home', lang='en') }}" class="{% if lang == 'en' %}active{% endif %}">
+                {{ text.language_en }}
+            </a>
+            <a href="{{ url_for('home', lang='de') }}" class="{% if lang == 'de' %}active{% endif %}">
+                {{ text.language_de }}
+            </a>
+        </div>
+
+        <h1>{{ text.heading }}</h1>
 
         <form action="/predict" method="post" class="prediction-form">
-            <label>Age <input type="number" name="age" required></label>
-            <label>Sex <input type="number" name="sex" required></label>
-            <label>Chest Pain Type <input type="number" name="cp" required></label>
-            <label>Resting BP <input type="number" name="trestbps" required></label>
-            <label>Cholesterol <input type="number" name="chol" required></label>
-            <label>FBS <input type="number" name="fbs" required></label>
-            <label>Rest ECG <input type="number" name="restecg" required></label>
-            <label>Max Heart Rate <input type="number" name="thalach" required></label>
-            <label>Exercise Angina <input type="number" name="exang" required></label>
-            <label>Oldpeak <input type="number" step="any" name="oldpeak" required></label>
-            <label>Slope <input type="number" name="slope" required></label>
-            <label>CA <input type="number" name="ca" required></label>
-            <label>Thal <input type="number" name="thal" required></label>
-            <button type="submit">Predict</button>
+            <input type="hidden" name="lang" value="{{ lang }}">
+            <label>{{ text.age }} <input type="number" name="age" required></label>
+            <label>{{ text.sex }} <input type="number" name="sex" required></label>
+            <label>{{ text.cp }} <input type="number" name="cp" required></label>
+            <label>{{ text.trestbps }} <input type="number" name="trestbps" required></label>
+            <label>{{ text.chol }} <input type="number" name="chol" required></label>
+            <label>{{ text.fbs }} <input type="number" name="fbs" required></label>
+            <label>{{ text.restecg }} <input type="number" name="restecg" required></label>
+            <label>{{ text.thalach }} <input type="number" name="thalach" required></label>
+            <label>{{ text.exang }} <input type="number" name="exang" required></label>
+            <label>{{ text.oldpeak }} <input type="number" step="any" name="oldpeak" required></label>
+            <label>{{ text.slope }} <input type="number" name="slope" required></label>
+            <label>{{ text.ca }} <input type="number" name="ca" required></label>
+            <label>{{ text.thal }} <input type="number" name="thal" required></label>
+            <button type="submit">{{ text.predict_button }}</button>
         </form>
 
         {% if prediction %}
         <section class="result">
             <div style="margin-top:20px; font-size:20px; font-weight:bold;">
-                Result: {{ prediction }}
+                {{ text.result_label }}: {{ prediction }}
             </div>
             <div style="font-size:18px;">
-                Risk Probability: {{ probability }} %
+                {{ text.probability_label }}: {{ probability }} %
             </div>
         </section>
         {% endif %}
