@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <main class="container">
+        <h1>Heart Disease Prediction</h1>
+
+        <form action="/predict" method="post" class="prediction-form">
+            <label>Age <input type="number" name="age" required></label>
+            <label>Sex <input type="number" name="sex" required></label>
+            <label>Chest Pain Type <input type="number" name="cp" required></label>
+            <label>Resting BP <input type="number" name="trestbps" required></label>
+            <label>Cholesterol <input type="number" name="chol" required></label>
+            <label>FBS <input type="number" name="fbs" required></label>
+            <label>Rest ECG <input type="number" name="restecg" required></label>
+            <label>Max Heart Rate <input type="number" name="thalach" required></label>
+            <label>Exercise Angina <input type="number" name="exang" required></label>
+            <label>Oldpeak <input type="number" step="any" name="oldpeak" required></label>
+            <label>Slope <input type="number" name="slope" required></label>
+            <label>CA <input type="number" name="ca" required></label>
+            <label>Thal <input type="number" name="thal" required></label>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction is not none %}
+        <section class="result">
+            <h2>Prediction</h2>
+            <p>{{ prediction }}</p>
+        </section>
+        {% endif %}
+    </main>
+</body>
+</html>
