@@ -25,104 +25,128 @@
         <form action="/predict" method="post" class="prediction-form">
             <input type="hidden" name="lang" value="{{ lang }}">
             
-            <!-- Numeric Fields -->
-            <div>
-                <label for="age">{{ text.age }}</label>
-                <input type="number" name="age" id="age" min="29" max="77" required>
-            </div>
-            
-            <div>
-                <label for="trestbps">{{ text.trestbps }}</label>
-                <input type="number" name="trestbps" id="trestbps" min="94" max="200" required>
-            </div>
-            
-            <div>
-                <label for="chol">{{ text.chol }}</label>
-                <input type="number" name="chol" id="chol" min="126" max="564" required>
-            </div>
-            
-            <div>
-                <label for="thalach">{{ text.thalach }}</label>
-                <input type="number" name="thalach" id="thalach" min="71" max="202" required>
-            </div>
-            
-            <div>
-                <label for="oldpeak">{{ text.oldpeak }}</label>
-                <input type="number" name="oldpeak" id="oldpeak" min="0" max="6.2" step="0.1" required>
-            </div>
-            
-            <div>
-                <label for="ca">{{ text.ca }}</label>
-                <input type="number" name="ca" id="ca" min="0" max="4" required>
-            </div>
-            
-            <!-- Categorical Fields -->
-            <div>
+            <!-- Sex -->
+            <div class="form-group">
                 <label for="sex">{{ text.sex }}</label>
                 <select name="sex" id="sex" required>
-                    <option value="">{{ text.sex_select }}</option>
+                    <option value="" disabled selected>{{ text.sex_select }}</option>
                     <option value="1">{{ text.sex_male }}</option>
                     <option value="0">{{ text.sex_female }}</option>
                 </select>
+                <small>{{ text.hint_sex }}</small>
             </div>
             
-            <div>
+            <!-- Age -->
+            <div class="form-group">
+                <label for="age">{{ text.age }}</label>
+                <input type="number" name="age" id="age" placeholder="45" min="29" max="77" required>
+                <small>{{ text.hint_age }}</small>
+            </div>
+            
+            <!-- Chest Pain Type -->
+            <div class="form-group">
                 <label for="cp">{{ text.cp }}</label>
                 <select name="cp" id="cp" required>
-                    <option value="">{{ text.cp_select }}</option>
+                    <option value="" disabled selected>{{ text.cp_select }}</option>
                     <option value="0">{{ text.cp_typical }}</option>
                     <option value="1">{{ text.cp_atypical }}</option>
                     <option value="2">{{ text.cp_noanginal }}</option>
                     <option value="3">{{ text.cp_asymp }}</option>
                 </select>
+                <small>{{ text.hint_cp }}</small>
             </div>
             
-            <div>
+            <!-- Resting BP -->
+            <div class="form-group">
+                <label for="trestbps">{{ text.trestbps }}</label>
+                <input type="number" name="trestbps" id="trestbps" placeholder="120" min="94" max="200" required>
+                <small>{{ text.hint_trestbps }}</small>
+            </div>
+            
+            <!-- Cholesterol -->
+            <div class="form-group">
+                <label for="chol">{{ text.chol }}</label>
+                <input type="number" name="chol" id="chol" placeholder="240" min="126" max="564" required>
+                <small>{{ text.hint_chol }}</small>
+            </div>
+            
+            <!-- Fasting Blood Sugar -->
+            <div class="form-group">
                 <label for="fbs">{{ text.fbs }}</label>
                 <select name="fbs" id="fbs" required>
-                    <option value="">{{ text.fbs_select }}</option>
+                    <option value="" disabled selected>{{ text.fbs_select }}</option>
                     <option value="1">{{ text.fbs_high }}</option>
                     <option value="0">{{ text.fbs_low }}</option>
                 </select>
+                <small>{{ text.hint_fbs }}</small>
             </div>
             
-            <div>
+            <!-- Resting ECG -->
+            <div class="form-group">
                 <label for="restecg">{{ text.restecg }}</label>
                 <select name="restecg" id="restecg" required>
-                    <option value="">{{ text.restecg_select }}</option>
+                    <option value="" disabled selected>{{ text.restecg_select }}</option>
                     <option value="0">{{ text.restecg_normal }}</option>
                     <option value="1">{{ text.restecg_stt }}</option>
                     <option value="2">{{ text.restecg_hvh }}</option>
                 </select>
+                <small>{{ text.hint_restecg }}</small>
             </div>
             
-            <div>
+            <!-- Max Heart Rate -->
+            <div class="form-group">
+                <label for="thalach">{{ text.thalach }}</label>
+                <input type="number" name="thalach" id="thalach" placeholder="150" min="71" max="202" required>
+                <small>{{ text.hint_thalach }}</small>
+            </div>
+            
+            <!-- Exercise Angina -->
+            <div class="form-group">
                 <label for="exang">{{ text.exang }}</label>
                 <select name="exang" id="exang" required>
-                    <option value="">{{ text.exang_select }}</option>
+                    <option value="" disabled selected>{{ text.exang_select }}</option>
                     <option value="1">{{ text.exang_yes }}</option>
                     <option value="0">{{ text.exang_no }}</option>
                 </select>
+                <small>{{ text.hint_exang }}</small>
             </div>
             
-            <div>
+            <!-- Oldpeak -->
+            <div class="form-group">
+                <label for="oldpeak">{{ text.oldpeak }}</label>
+                <input type="number" name="oldpeak" id="oldpeak" placeholder="1.5" min="0" max="6.2" step="0.1" required>
+                <small>{{ text.hint_oldpeak }}</small>
+            </div>
+            
+            <!-- Slope -->
+            <div class="form-group">
                 <label for="slope">{{ text.slope }}</label>
                 <select name="slope" id="slope" required>
-                    <option value="">{{ text.slope_select }}</option>
+                    <option value="" disabled selected>{{ text.slope_select }}</option>
                     <option value="0">{{ text.slope_up }}</option>
                     <option value="1">{{ text.slope_flat }}</option>
                     <option value="2">{{ text.slope_down }}</option>
                 </select>
+                <small>{{ text.hint_slope }}</small>
             </div>
             
-            <div>
+            <!-- Major Vessels -->
+            <div class="form-group">
+                <label for="ca">{{ text.ca }}</label>
+                <input type="number" name="ca" id="ca" placeholder="0" min="0" max="4" required>
+                <small>{{ text.hint_ca }}</small>
+            </div>
+            
+            <!-- Thal -->
+            <div class="form-group">
                 <label for="thal">{{ text.thal }}</label>
                 <select name="thal" id="thal" required>
-                    <option value="">{{ text.thal_select }}</option>
+                    <option value="" disabled selected>{{ text.thal_select }}</option>
                     <option value="0">{{ text.thal_normal }}</option>
                     <option value="1">{{ text.thal_fixed }}</option>
                     <option value="2">{{ text.thal_reversible }}</option>
                 </select>
+                <small>{{ text.hint_thal }}</small>
             </div>
             
             <button type="submit">{{ text.predict_button }}</button>
