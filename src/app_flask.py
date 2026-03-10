@@ -5,6 +5,10 @@ import base64
 import joblib
 from flask import Flask, render_template, request, jsonify
 import openai
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 MODEL_PATH = BASE_DIR / "model" / "pipeline.joblib"
@@ -566,10 +570,11 @@ def extract_from_image():
     """Extract medical data from uploaded image using OpenAI Vision API"""
     try:
         lang = get_language(request.form.get("lang", "en"))
-        api_key = request.form.get("api_key")
+        # Get API key from environment variable
+        api_key = os.getenv("OPENAI_API_KEY")
         
         if not api_key:
-            return jsonify({"error": "API key required"}), 400
+            return jsonify({"error": "API key not configured. Please set OPENAI_API_KEY environment variable."}), 500
         
         if "file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400

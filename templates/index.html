@@ -43,10 +43,6 @@
             <h3 style="margin-top: 0; color: #006b7b;">📄 أو احمل تقرير طبي (Load Medical Report)</h3>
             <div style="display: grid; gap: 12px;">
                 <div>
-                    <label for="apiKey" style="display: block; margin-bottom: 8px; font-weight: 600;">🔑 OpenAI API Key</label>
-                    <input type="password" id="apiKey" placeholder="sk-..." style="width: 100%; padding: 10px; border: 2px solid #06b6d4; border-radius: 8px; box-sizing: border-box;">
-                </div>
-                <div>
                     <label for="documentFile" style="display: block; margin-bottom: 8px; font-weight: 600;">📸 اختر صورة أو PDF</label>
                     <input type="file" id="documentFile" accept="image/*,.pdf" style="padding: 10px; border: 2px solid #06b6d4; border-radius: 8px; box-sizing: border-box;">
                 </div>
@@ -460,12 +456,11 @@
 
         // Extract from Document
         async function extractFromDocument() {
-            const apiKey = document.getElementById('apiKey').value;
             const file = document.getElementById('documentFile').files[0];
             const status = document.getElementById('extractStatus');
 
-            if (!apiKey || !file) {
-                status.textContent = '❌ Please enter API key and select a file';
+            if (!file) {
+                status.textContent = '❌ Please select a file';
                 status.style.display = 'block';
                 status.style.color = '#991b1b';
                 return;
@@ -477,7 +472,6 @@
 
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('api_key', apiKey);
             formData.append('lang', '{{ lang }}');
 
             try {
