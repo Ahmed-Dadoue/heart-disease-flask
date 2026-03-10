@@ -2,3 +2,6 @@ flask
 scikit-learn==1.6.1
 joblib
 gunicorn
+openai>=1.0.0
+python-dotenv
+pillow

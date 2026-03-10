@@ -38,6 +38,30 @@
             </div>
         </div>
 
+        <!-- Document Upload Section -->
+        <div id="documentSection" style="padding: 24px; background: linear-gradient(135deg, #ecfdf5 0%, #ccfbf1 100%); border-radius: 12px; margin-bottom: 20px; display: none;">
+            <h3 style="margin-top: 0; color: #006b7b;">📄 أو احمل تقرير طبي (Load Medical Report)</h3>
+            <div style="display: grid; gap: 12px;">
+                <div>
+                    <label for="apiKey" style="display: block; margin-bottom: 8px; font-weight: 600;">🔑 OpenAI API Key</label>
+                    <input type="password" id="apiKey" placeholder="sk-..." style="width: 100%; padding: 10px; border: 2px solid #06b6d4; border-radius: 8px; box-sizing: border-box;">
+                </div>
+                <div>
+                    <label for="documentFile" style="display: block; margin-bottom: 8px; font-weight: 600;">📸 اختر صورة أو PDF</label>
+                    <input type="file" id="documentFile" accept="image/*,.pdf" style="padding: 10px; border: 2px solid #06b6d4; border-radius: 8px; box-sizing: border-box;">
+                </div>
+                <button type="button" onclick="extractFromDocument()" style="padding: 12px; background: linear-gradient(135deg, #006b7b 0%, #06b6d4 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                    🤖 استخراج البيانات (Extract Data)
+                </button>
+            </div>
+            <div id="extractStatus" style="margin-top: 12px; display: none; padding: 12px; background: white; border-radius: 8px;"></div>
+        </div>
+
+        <!-- Toggle Document Section Button -->
+        <button type="button" onclick="toggleDocumentSection()" style="width: 100%; padding: 10px; margin-bottom: 20px; background: #f3f4f6; border: 2px dashed #06b6d4; color: #006b7b; border-radius: 8px; font-weight: 600; cursor: pointer;">
+            📄 Upload Medical Document / تحميل الوثائق الطبية
+        </button>
+
         <form action="/predict" method="post" class="prediction-form" id="predictionForm">
             <input type="hidden" name="lang" value="{{ lang }}">
             
@@ -427,6 +451,86 @@
                 el.style.borderColor = '#e2e8f0';
             });
         });
+
+        // Toggle Document Section
+        function toggleDocumentSection() {
+            const section = document.getElementById('documentSection');
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Extract from Document
+        async function extractFromDocument() {
+            const apiKey = document.getElementById('apiKey').value;
+            const file = document.getElementById('documentFile').files[0];
+            const status = document.getElementById('extractStatus');
+
+            if (!apiKey || !file) {
+                status.textContent = '❌ Please enter API key and select a file';
+                status.style.display = 'block';
+                status.style.color = '#991b1b';
+                return;
+            }
+
+            status.textContent = '⏳ جاري الاستخراج... Processing...';
+            status.style.display = 'block';
+            status.style.color = '#0c63e4';
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('api_key', apiKey);
+            formData.append('lang', '{{ lang }}');
+
+            try {
+                const response = await fetch('/extract-from-image', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (!response.ok || data.error) {
+                    status.textContent = '❌ Error: ' + (data.error || 'Unknown error');
+                    status.style.color = '#991b1b';
+                    return;
+                }
+
+                // Fill form fields
+                const fieldMap = {
+                    'age': 'age',
+                    'sex': 'sex',
+                    'cp': 'cp',
+                    'trestbps': 'trestbps',
+                    'chol': 'chol',
+                    'fbs': 'fbs',
+                    'restecg': 'restecg',
+                    'thalach': 'thalach',
+                    'exang': 'exang',
+                    'oldpeak': 'oldpeak',
+                    'slope': 'slope',
+                    'ca': 'ca',
+                    'thal': 'thal'
+                };
+
+                let filledCount = 0;
+                for (const [key, fieldId] of Object.entries(fieldMap)) {
+                    if (data[key] !== null && data[key] !== undefined) {
+                        const element = document.getElementById(fieldId);
+                        if (element) {
+                            element.value = data[key];
+                            filledCount++;
+                        }
+                    }
+                }
+
+                status.innerHTML = `✅ تم استخراج البيانات بنجاح! (${filledCount}/13 fields filled)<br><small>اضغط Predict للنتيجة</small>`;
+                status.style.color = '#166534';
+                document.getElementById('documentSection').style.display = 'none';
+
+            } catch (error) {
+                status.textContent = '❌ Network error: ' + error.message;
+                status.style.color = '#991b1b';
+            }
+        }
     </script>
 </body>
 </html>
