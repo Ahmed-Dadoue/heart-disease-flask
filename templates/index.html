@@ -61,6 +61,14 @@
         <form action="/predict" method="post" class="prediction-form" id="predictionForm">
             <input type="hidden" name="lang" value="{{ lang }}">
             
+            <!-- Demo Data Button -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button type="button" onclick="fillDemoData()" style="padding: 10px 20px; background: linear-gradient(135deg, #06b6d4 0%, #0d9488 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">
+                    {{ text.demo_button }}
+                </button>
+                <small style="display: block; margin-top: 5px; color: #666; font-style: italic;">{{ text.important_note_text }}</small>
+            </div>
+            
             <!-- Sex -->
             <div class="form-group">
                 <label for="sex">
@@ -401,6 +409,29 @@
                 </div>
             </div>
             
+            <!-- Input Summary Card -->
+            {% if input_summary %}
+            <div style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 12px; border-left: 4px solid #22c55e;">
+                <h4 style="margin-top: 0; color: #166534;">✓ {{ text.summary_title }}</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 14px;">
+                    <div><strong>{{ text.age }}:</strong> {{ input_summary.age }} years</div>
+                    <div><strong>{{ text.sex }}:</strong> {{ input_summary.sex }}</div>
+                    <div><strong>{{ text.trestbps }}:</strong> {{ input_summary.trestbps }} mm Hg</div>
+                    <div><strong>{{ text.chol }}:</strong> {{ input_summary.chol }} mg/dl</div>
+                    <div><strong>{{ text.fbs }}:</strong> {{ input_summary.fbs }}</div>
+                    <div><strong>{{ text.thalach }}:</strong> {{ input_summary.thalach }} bpm</div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Recommendation Box -->
+            {% if recommendation %}
+            <div style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 12px; border-left: 4px solid #f59e0b;">
+                <h4 style="margin-top: 0; color: #92400e;">💡 {{ text.recommendation_title }}</h4>
+                <p style="margin: 0; color: #78350f; line-height: 1.6;">{{ recommendation }}</p>
+            </div>
+            {% endif %}
+            
             <div class="result-disclaimer">
                 {{ text.result_disclaimer }}<br>
                 {{ text.result_recommendation }}
@@ -448,8 +479,23 @@
             });
         });
 
-        // Toggle Document Section
-        function toggleDocumentSection() {
+        // Fill Demo Data
+        function fillDemoData() {
+            document.getElementById("age").value = 52;
+            document.getElementById("sex").value = "1";
+            document.getElementById("cp").value = "3";
+            document.getElementById("trestbps").value = 125;
+            document.getElementById("chol").value = 212;
+            document.getElementById("fbs").value = "0";
+            document.getElementById("restecg").value = "0";
+            document.getElementById("thalach").value = 168;
+            document.getElementById("exang").value = "0";
+            document.getElementById("oldpeak").value = "1.0";
+            document.getElementById("slope").value = "1";
+            document.getElementById("ca").value = "0";
+            document.getElementById("thal").value = "0";
+        }
+        
             const section = document.getElementById('documentSection');
             section.style.display = section.style.display === 'none' ? 'block' : 'none';
         }

@@ -152,6 +152,12 @@ TRANSLATIONS = {
         "risk_level_low": "Low Risk",
         "risk_level_medium": "Moderate Risk",
         "risk_level_high": "High Risk",
+        "demo_button": "✨ Fill Example Data",
+        "summary_title": "Input Summary",
+        "recommendation_title": "Recommended Next Step",
+        "recommendation_low": "The preliminary assessment shows low risk. Please review the entered values and continue with regular health monitoring.",
+        "recommendation_medium": "The assessment shows moderate risk. It's recommended to consult a doctor and undergo additional examinations if necessary.",
+        "recommendation_high": "The assessment shows elevated risk. Please consult a doctor or cardiac specialist as soon as possible and rely on an actual medical report.",
     },
     "de": {
         "direction": "ltr",
@@ -291,8 +297,12 @@ TRANSLATIONS = {
         "source_specialist": "Aus Facharztbericht",
         "risk_level_low": "Niedriges Risiko",
         "risk_level_medium": "Mittleres Risiko",
-        "risk_level_high": "Hohes Risiko",
-    },
+        "risk_level_high": "Hohes Risiko",        "demo_button": "✨ Beispieldaten einfügen",
+        "summary_title": "Eingabezusammenfassung",
+        "recommendation_title": "Empfohlener nächster Schritt",
+        "recommendation_low": "Die vorläufige Bewertung zeigt niedriges Risiko. Bitte überprüfen Sie die eingegebenen Werte und führen Sie regelmäßige Gesundheitschecks durch.",
+        "recommendation_medium": "Die Bewertung zeigt moderates Risiko. Es wird empfohlen, einen Arzt zu konsultieren und ggf. weitere Untersuchungen durchzuführen.",
+        "recommendation_high": "Die Bewertung zeigt erhöhtes Risiko. Bitte konsultieren Sie so bald wie möglich einen Arzt oder Kardiologen und verlassen Sie sich auf einen echten medizinischen Bericht.",    },
     "ar": {
         "direction": "rtl",
         "page_title": "التنبؤ بأمراض القلب",
@@ -432,6 +442,12 @@ TRANSLATIONS = {
         "risk_level_low": "خطر منخفض",
         "risk_level_medium": "خطر متوسط",
         "risk_level_high": "خطر مرتفع",
+        "demo_button": "✨ تعبئة بيانات تجريبية",
+        "summary_title": "ملخص البيانات المدخلة",
+        "recommendation_title": "الخطوة المقترحة التالية",
+        "recommendation_low": "التقييم الأولي يشير إلى خطر منخفض. يفضل مراجعة القيم المدخلة والاستمرار في المراقبة الصحية العامة.",
+        "recommendation_medium": "التقييم يشير إلى خطر متوسط. يُنصح باستشارة طبيب وإجراء فحوصات إضافية إذا لزم الأمر.",
+        "recommendation_high": "التقييم يشير إلى خطر مرتفع. يفضل التواصل مع طبيب أو متخصص في أقرب وقت والاعتماد على تقرير طبي فعلي.",
     },
 }
 
@@ -555,13 +571,38 @@ def predict():
         result = text["high_risk"]
     else:
         result = text["low_risk"]
+    
+    # Generate recommendation based on probability
+    probability_pct = round(probability * 100, 2)
+    if probability_pct < 40:
+        recommendation = text["recommendation_low"]
+    elif probability_pct < 70:
+        recommendation = text["recommendation_medium"]
+    else:
+        recommendation = text["recommendation_high"]
+    
+    # Create input summary data
+    sex_label = text["sex_male"] if sex == 1 else text["sex_female"]
+    
+    input_summary = {
+        "age": age,
+        "sex": sex_label,
+        "cp": request.form.get("cp_display", ""),
+        "trestbps": trestbps,
+        "chol": chol,
+        "fbs": text["fbs_high"] if fbs == 1 else text["fbs_low"],
+        "thalach": thalach,
+        "exang": text["exang_yes"] if exang == 1 else text["exang_no"],
+    }
 
     return render_template(
         "index.html",
         prediction=result,
-        probability=round(probability * 100, 2),
+        probability=probability_pct,
         lang=lang,
         text=text,
+        recommendation=recommendation,
+        input_summary=input_summary,
     )
 
 
