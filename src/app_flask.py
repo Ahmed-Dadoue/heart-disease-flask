@@ -32,14 +32,27 @@ model = joblib.load(MODEL_PATH)
 
 @app.route("/")
 def home():
-    return render_template("index.html", prediction=None)
+    return render_template("index.html", prediction=None, probability=None)
 
 
 @app.route("/predict", methods=["POST"])
 def predict():
     features = {field: float(request.form[field]) for field in FEATURE_FIELDS}
-    prediction = model.predict(pd.DataFrame([features], columns=FEATURE_FIELDS))[0]
-    return render_template("index.html", prediction=prediction)
+    df = pd.DataFrame([features], columns=FEATURE_FIELDS)
+
+    prediction = model.predict(df)[0]
+    probability = model.predict_proba(df)[0][1]
+
+    if prediction == 1:
+        result = "⚠ High Risk of Heart Disease"
+    else:
+        result = "✅ Low Risk"
+
+    return render_template(
+        "index.html",
+        prediction=result,
+        probability=round(probability * 100, 2),
+    )
 
 
 if __name__ == "__main__":

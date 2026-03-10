@@ -27,10 +27,14 @@
             <button type="submit">Predict</button>
         </form>
 
-        {% if prediction is not none %}
+        {% if prediction %}
         <section class="result">
-            <h2>Prediction</h2>
-            <p>{{ prediction }}</p>
+            <div style="margin-top:20px; font-size:20px; font-weight:bold;">
+                Result: {{ prediction }}
+            </div>
+            <div style="font-size:18px;">
+                Risk Probability: {{ probability }} %
+            </div>
         </section>
         {% endif %}
     </main>
