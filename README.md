@@ -6,6 +6,11 @@ A professional, multilingual medical prediction system built with Flask and Mach
 
 🔗 **[heart-disease-flask.onrender.com](https://heart-disease-flask-2ue3.onrender.com)**
 
+📖 **Dokumentationen:**
+- 🇬🇧 [English README](./README.md)
+- 🇩🇪 [Deutsch README](./README.md) 
+- 🇸🇦 [Arabic README / دليل عربي](./README-ar.md)
+
 ## ✨ Features
 
 ### 🎯 Core Functionality
