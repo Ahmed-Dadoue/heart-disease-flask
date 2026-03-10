@@ -196,6 +196,36 @@ html[dir="rtl"] .info-box {
     background: #f0fdfb;
 }
 
+/* Medical Notes */
+.medical-note {
+    display: inline-block;
+    margin-top: 8px;
+    color: #92400e;
+    background: #fff4e5;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    border-left: 3px solid #f59e0b;
+}
+
+html[dir="rtl"] .medical-note {
+    border-left: 0;
+    border-right: 3px solid #f59e0b;
+}
+
+/* Important Note */
+.important-note {
+    background: #fef2f2 !important;
+    border-right: 4px solid #dc2626 !important;
+    color: #7f1d1d;
+}
+
+html[dir="rtl"] .important-note {
+    border-right: 0 !important;
+    border-left: 4px solid #dc2626 !important;
+}
+
 .result {
     margin-top: 24px;
     padding: 16px;

@@ -22,6 +22,12 @@
 
         <h1>{{ text.heading }}</h1>
 
+        <!-- Important Note Banner -->
+        <div class="info-box important-note" style="display:block; margin-bottom: 20px;">
+            <strong>⚠️ {{ text.important_note_title }}</strong><br>
+            {{ text.important_note_text }}
+        </div>
+
         <!-- General Help Box -->
         <div class="help-banner">
             <button type="button" onclick="toggleInfo('formHelp')" class="help-btn">
@@ -42,7 +48,14 @@
                     <span class="info-icon" onclick="toggleInfo('sexInfo')">ⓘ</span>
                 </label>
                 <div id="sexInfo" class="info-box">
-                    {{ text.info_sex }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_sex_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_select }}</strong><br>
+                    {{ text.info_sex_select }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_sex_source }}
                 </div>
                 <select name="sex" id="sex" required>
                     <option value="" disabled selected>{{ text.sex_select }}</option>
@@ -59,7 +72,14 @@
                     <span class="info-icon" onclick="toggleInfo('ageInfo')">ⓘ</span>
                 </label>
                 <div id="ageInfo" class="info-box">
-                    {{ text.info_age }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_age_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_write }}</strong><br>
+                    {{ text.info_age_write }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_age_source }}
                 </div>
                 <input type="number" name="age" id="age" placeholder="45" min="29" max="77" required>
                 <small>{{ text.hint_age }}</small>
@@ -72,7 +92,14 @@
                     <span class="info-icon" onclick="toggleInfo('cpInfo')">ⓘ</span>
                 </label>
                 <div id="cpInfo" class="info-box">
-                    {{ text.info_cp }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_cp_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_select }}</strong><br>
+                    {{ text.info_cp_select }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_cp_source }}
                 </div>
                 <select name="cp" id="cp" required>
                     <option value="" disabled selected>{{ text.cp_select }}</option>
@@ -91,7 +118,14 @@
                     <span class="info-icon" onclick="toggleInfo('trestbpsInfo')">ⓘ</span>
                 </label>
                 <div id="trestbpsInfo" class="info-box">
-                    {{ text.info_trestbps }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_trestbps_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_write }}</strong><br>
+                    {{ text.info_trestbps_write }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_trestbps_source }}
                 </div>
                 <input type="number" name="trestbps" id="trestbps" placeholder="120" min="94" max="200" required>
                 <small>{{ text.hint_trestbps }}</small>
@@ -104,7 +138,14 @@
                     <span class="info-icon" onclick="toggleInfo('cholInfo')">ⓘ</span>
                 </label>
                 <div id="cholInfo" class="info-box">
-                    {{ text.info_chol }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_chol_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_write }}</strong><br>
+                    {{ text.info_chol_write }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_chol_source }}
                 </div>
                 <input type="number" name="chol" id="chol" placeholder="240" min="126" max="564" required>
                 <small>{{ text.hint_chol }}</small>
@@ -117,7 +158,14 @@
                     <span class="info-icon" onclick="toggleInfo('fbsInfo')">ⓘ</span>
                 </label>
                 <div id="fbsInfo" class="info-box">
-                    {{ text.info_fbs }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_fbs_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_select }}</strong><br>
+                    {{ text.info_fbs_select }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_fbs_source }}
                 </div>
                 <select name="fbs" id="fbs" required>
                     <option value="" disabled selected>{{ text.fbs_select }}</option>
@@ -134,7 +182,16 @@
                     <span class="info-icon" onclick="toggleInfo('restecgInfo')">ⓘ</span>
                 </label>
                 <div id="restecgInfo" class="info-box">
-                    {{ text.info_restecg }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_restecg_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_select }}</strong><br>
+                    {{ text.info_restecg_select }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_restecg_source }}<br><br>
+                    
+                    <span class="medical-note">{{ text.medical_required }}</span>
                 </div>
                 <select name="restecg" id="restecg" required>
                     <option value="" disabled selected>{{ text.restecg_select }}</option>
@@ -152,7 +209,14 @@
                     <span class="info-icon" onclick="toggleInfo('thalachInfo')">ⓘ</span>
                 </label>
                 <div id="thalachInfo" class="info-box">
-                    {{ text.info_thalach }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_thalach_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_write }}</strong><br>
+                    {{ text.info_thalach_write }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_thalach_source }}
                 </div>
                 <input type="number" name="thalach" id="thalach" placeholder="150" min="71" max="202" required>
                 <small>{{ text.hint_thalach }}</small>
@@ -165,7 +229,14 @@
                     <span class="info-icon" onclick="toggleInfo('exangInfo')">ⓘ</span>
                 </label>
                 <div id="exangInfo" class="info-box">
-                    {{ text.info_exang }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_exang_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_select }}</strong><br>
+                    {{ text.info_exang_select }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_exang_source }}
                 </div>
                 <select name="exang" id="exang" required>
                     <option value="" disabled selected>{{ text.exang_select }}</option>
@@ -182,7 +253,16 @@
                     <span class="info-icon" onclick="toggleInfo('oldpeakInfo')">ⓘ</span>
                 </label>
                 <div id="oldpeakInfo" class="info-box">
-                    {{ text.info_oldpeak }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_oldpeak_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_write }}</strong><br>
+                    {{ text.info_oldpeak_write }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_oldpeak_source }}<br><br>
+                    
+                    <span class="medical-note">{{ text.medical_required }}</span>
                 </div>
                 <input type="number" name="oldpeak" id="oldpeak" placeholder="1.5" min="0" max="6.2" step="0.1" required>
                 <small>{{ text.hint_oldpeak }}</small>
@@ -195,7 +275,16 @@
                     <span class="info-icon" onclick="toggleInfo('slopeInfo')">ⓘ</span>
                 </label>
                 <div id="slopeInfo" class="info-box">
-                    {{ text.info_slope }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_slope_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_select }}</strong><br>
+                    {{ text.info_slope_select }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_slope_source }}<br><br>
+                    
+                    <span class="medical-note">{{ text.medical_required }}</span>
                 </div>
                 <select name="slope" id="slope" required>
                     <option value="" disabled selected>{{ text.slope_select }}</option>
@@ -213,7 +302,16 @@
                     <span class="info-icon" onclick="toggleInfo('caInfo')">ⓘ</span>
                 </label>
                 <div id="caInfo" class="info-box">
-                    {{ text.info_ca }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_ca_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_write }}</strong><br>
+                    {{ text.info_ca_write }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_ca_source }}<br><br>
+                    
+                    <span class="medical-note">{{ text.medical_required }}</span>
                 </div>
                 <input type="number" name="ca" id="ca" placeholder="0" min="0" max="4" required>
                 <small>{{ text.hint_ca }}</small>
@@ -226,7 +324,16 @@
                     <span class="info-icon" onclick="toggleInfo('thalInfo')">ⓘ</span>
                 </label>
                 <div id="thalInfo" class="info-box">
-                    {{ text.info_thal }}
+                    <strong>{{ text.what_is }}</strong><br>
+                    {{ text.info_thal_what }}<br><br>
+                    
+                    <strong>{{ text.what_to_select }}</strong><br>
+                    {{ text.info_thal_select }}<br><br>
+                    
+                    <strong>{{ text.where_to_find }}</strong><br>
+                    {{ text.info_thal_source }}<br><br>
+                    
+                    <span class="medical-note">{{ text.medical_required }}</span>
                 </div>
                 <select name="thal" id="thal" required>
                     <option value="" disabled selected>{{ text.thal_select }}</option>
