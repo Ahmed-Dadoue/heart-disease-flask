@@ -494,8 +494,8 @@ Return ONLY a JSON with these exact fields (use null if not found):
 
 Important: Return ONLY the JSON, nothing else."""
 
-        response = client.vision.completions.create(
-            model="gpt-4-vision-preview",
+        response = client.messages.create(
+            model="gpt-4-turbo",
             messages=[
                 {
                     "role": "user",
