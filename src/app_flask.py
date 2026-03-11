@@ -461,7 +461,7 @@ model = joblib.load(MODEL_PATH)
 
 
 def extract_medical_data(image_path, api_key):
-    """Extract medical data from image using OpenAI Responses API"""
+    """Extract medical data from image using OpenAI Chat Completions API."""
     try:
         # Read and encode image
         with open(image_path, "rb") as image_file:
@@ -509,26 +509,32 @@ Important:
 - No extra text
 """
 
-        response = client.responses.create(
-            model="gpt-4.1-mini",
-            input=[
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
                 {
                     "role": "user",
                     "content": [
+                        {"type": "text", "text": prompt},
                         {
-                            "type": "input_text",
-                            "text": prompt
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:{media_type};base64,{image_data}",
+                                "detail": "high",
+                            },
                         },
-                        {
-                            "type": "input_image",
-                            "image_url": f"data:{media_type};base64,{image_data}"
-                        }
-                    ]
+                    ],
                 }
-            ]
+            ],
+            response_format={"type": "json_object"},
+            temperature=0,
         )
 
-        result_text = response.output_text.strip()
+        result_text = (response.choices[0].message.content or "").strip()
+        if result_text.startswith("```"):
+            result_text = result_text.strip("`")
+            if result_text.startswith("json"):
+                result_text = result_text[4:].strip()
         medical_data = json.loads(result_text)
         return medical_data
 
