@@ -5,7 +5,7 @@ import base64
 import joblib
 import tempfile
 from flask import Flask, render_template, request, jsonify
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -461,67 +461,77 @@ model = joblib.load(MODEL_PATH)
 
 
 def extract_medical_data(image_path, api_key):
-    """Extract medical data from image using OpenAI Vision API"""
+    """Extract medical data from image using OpenAI Responses API"""
     try:
         # Read and encode image
         with open(image_path, "rb") as image_file:
-            image_data = base64.standard_b64encode(image_file.read()).decode("utf-8")
-        
-        # Determine image type
-        file_ext = image_path.lower().split('.')[-1]
-        media_type = f"image/{file_ext}" if file_ext != "jpg" else "image/jpeg"
-        
-        # Call OpenAI Vision API
-        client = openai.OpenAI(api_key=api_key)
-        
-        prompt = """Analyze this medical report image and extract the following heart disease clinical parameters exactly as they appear:
+            image_data = base64.b64encode(image_file.read()).decode("utf-8")
 
-Return ONLY a JSON with these exact fields (use null if not found):
+        # Determine image type
+        file_ext = image_path.lower().split(".")[-1]
+        if file_ext == "jpg":
+            media_type = "image/jpeg"
+        elif file_ext == "jpeg":
+            media_type = "image/jpeg"
+        elif file_ext == "png":
+            media_type = "image/png"
+        elif file_ext == "webp":
+            media_type = "image/webp"
+        else:
+            return {"error": f"Unsupported image type: {file_ext}"}
+
+        client = OpenAI(api_key=api_key)
+
+        prompt = """
+Analyze this medical report image and extract the following heart disease clinical parameters exactly as they appear.
+
+Return ONLY valid JSON with these exact fields (use null if not found):
 {
   "age": number,
-  "sex": 0 or 1 (0=Female, 1=Male),
-  "cp": 0-3 (chest pain type),
-  "trestbps": number (resting blood pressure),
-  "chol": number (cholesterol),
-  "fbs": 0 or 1 (fasting blood sugar >120),
-  "restecg": 0-2 (ECG result),
-  "thalach": number (max heart rate),
-  "exang": 0 or 1 (exercise angina),
-  "oldpeak": decimal (ST depression),
-  "slope": 0-2 (ST slope),
-  "ca": 0-4 (major vessels),
-  "thal": 0-3 (thalassemia)
+  "sex": 0 or 1,
+  "cp": 0-3,
+  "trestbps": number,
+  "chol": number,
+  "fbs": 0 or 1,
+  "restecg": 0-2,
+  "thalach": number,
+  "exang": 0 or 1,
+  "oldpeak": decimal,
+  "slope": 0-2,
+  "ca": 0-4,
+  "thal": 0-2
 }
 
-Important: Return ONLY the JSON, nothing else."""
+Important:
+- Return ONLY JSON
+- No explanations
+- No markdown
+- No extra text
+"""
 
-        response = client.messages.create(
-            model="gpt-4-turbo",
-            messages=[
+        response = client.responses.create(
+            model="gpt-4.1-mini",
+            input=[
                 {
                     "role": "user",
                     "content": [
                         {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:{media_type};base64,{image_data}"
-                            }
+                            "type": "input_text",
+                            "text": prompt
                         },
                         {
-                            "type": "text",
-                            "text": prompt
+                            "type": "input_image",
+                            "image_url": f"data:{media_type};base64,{image_data}"
                         }
                     ]
                 }
-            ],
-            max_tokens=500
+            ]
         )
-        
-        # Parse response
-        result_text = response.choices[0].message.content
+
+        result_text = response.output_text.strip()
         medical_data = json.loads(result_text)
         return medical_data
-        
+
     except Exception as e:
         return {"error": str(e)}
 
