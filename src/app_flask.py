@@ -3,6 +3,7 @@ import os
 import json
 import base64
 import joblib
+import tempfile
 from flask import Flask, render_template, request, jsonify
 import openai
 from dotenv import load_dotenv
@@ -626,7 +627,8 @@ def extract_from_image():
             return jsonify({"error": "No file selected"}), 400
         
         # Save temp file
-        temp_path = Path("/tmp") / file.filename
+        temp_dir = tempfile.gettempdir()
+        temp_path = Path(temp_dir) / file.filename
         file.save(temp_path)
         
         # Extract medical data
